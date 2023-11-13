@@ -1,9 +1,9 @@
-title: Nighthawk-Pages
+title: Big Brain Clicker
 description: "August 2023 to June 2024"
-owner_name: Tirth Thakkar
-github_username: Tirth-Thakkar
-github_repo: "Nighthawk-Pages"
-baseurl: "/Nighthawk-Pages"
+owner_name: Varaprasad Venkata Nibhanupudi
+github_username: nVarap
+github_repo: "CSA_Tri2_Project1"
+baseurl: "/CSA_Tri2_Project1"
 remote_theme: jekyll/minima
 minima:
   social_links:
