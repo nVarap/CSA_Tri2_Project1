@@ -9,7 +9,7 @@ course: csa
     body {
         font-family: 'Kavoon', cursive;
         background: #3999e3; /* Fallback color in case the gradient doesn't load */
-        background: repeating-linear-gradient(to right, #3578ab, #3578ab 1%, #3999e3 1%, #3999e3 2%);
+        background: repeating-linear-gradient(to right, #3578ab, #3578ab 10%, #3999e3 10%, #3999e3 25%);
         margin: 0; /* Remove default margin */
         padding: 0; /* Remove default padding */
     }
@@ -47,7 +47,7 @@ course: csa
         margin-top: 5%;
         border: 2px solid rgba(18, 18, 18, 0); /* Transparent border color */
         border-radius: 50px; /* Add rounded edges to the table */
-        background-color: rgba(18, 18, 18, 0); /* Transparent background color */
+        background-color: transparent; /* Set transparent background color */
         overflow: hidden; /* Ensure the rounded corners are applied */
     }
 
@@ -69,9 +69,9 @@ course: csa
         background-color: #45a049; /* Darker green color on hover */
     }
 
-    .game-container tr:hover {
-        background-color: rgba(255, 255, 0, 0.2); /* Transparent yellow background color on hover */
-    }
+    /* .game-container tr:hover {
+        background-color: rgba(255, 255, 0, 0.2);
+    } */
 </style>
 
 <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet">
@@ -90,7 +90,6 @@ course: csa
                             <th>Description</th>
                             <th>Level</th>
                             <th>Cost</th>
-                            <th>Buy</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -99,14 +98,12 @@ course: csa
                             <td>Plus Cookies</td>
                             <td>0</td>
                             <td>$20</td>
-                            <td><button>Buy</button></td>
                         </tr>
                         <tr class="upgrade">
                             <td>Upgrade 2</td>
                             <td>Auto Cookies</td>
                             <td>2</td>
                             <td>$20</td>
-                            <td><button>Buy</button></td>
                         </tr>
                     </tbody>
                 </table>
