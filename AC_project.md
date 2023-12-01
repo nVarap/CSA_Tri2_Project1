@@ -46,6 +46,10 @@ permalink: /project
         font-size: 16px;
         cursor: pointer;
     }
+
+    .explanation {
+        margin-top: 20px;
+    }
 </style>
 
 <div class="container">
@@ -56,28 +60,31 @@ permalink: /project
         <button id="merge-btn">Merge Sort</button>
         <button id="reset-btn">Reset Bars</button>
     </div>
+    <div class="explanation" id="explanation-container"></div>
 </div>
 
 <script>
-    let delayTime = 0.001;
+    let delayTime = 200;
     let arrayContainer;
+    let explanationContainer;
 
     document.addEventListener('DOMContentLoaded', () => {
         // Initial setup
         arrayContainer = document.getElementById('array-container');
+        explanationContainer = document.getElementById('explanation-container');
         generateBars();
 
         // Event listeners for buttons
-        document.getElementById('insertion-btn').addEventListener('click', () => insertionSort(arrayContainer));
-        document.getElementById('bubble-btn').addEventListener('click', () => bubbleSort(arrayContainer));
-        document.getElementById('merge-btn').addEventListener('click', mergeSort);
+        document.getElementById('insertion-btn').addEventListener('click', () => insertionSort());
+        document.getElementById('bubble-btn').addEventListener('click', () => bubbleSort());
+        document.getElementById('merge-btn').addEventListener('click', () => mergeSort());
         document.getElementById('reset-btn').addEventListener('click', () => {
             generateBars();
+            clearExplanation();
         });
     });
 
     function generateBars() {
-        const arrayContainer = document.getElementById('array-container');
         arrayContainer.innerHTML = '';
 
         const arraySize = 20;
@@ -94,7 +101,14 @@ permalink: /project
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    async function insertionSort(arrayContainer) {
+    function clearExplanation() {
+        explanationContainer.innerHTML = '';
+    }
+
+    async function insertionSort() {
+        clearExplanation();
+        explanationContainer.innerText = 'Insertion Sort: ... (Add your explanation here)';
+
         const bars = document.querySelectorAll('.bar');
         const array = Array.from(bars);
 
@@ -109,15 +123,15 @@ permalink: /project
 
             array[j + 1] = currentBar;
 
-            for (let k = 0; k < array.length; k++) {
-                await delay(delayTime);
-                arrayContainer.innerHTML = '';
-                array.forEach(bar => arrayContainer.appendChild(bar));
-            }
+            // Update visualization
+            await updateVisualization(array);
         }
     }
 
-    async function bubbleSort(arrayContainer) {
+    async function bubbleSort() {
+        clearExplanation();
+        explanationContainer.innerText = 'Bubble Sort: ... (Add your explanation here)';
+
         const bars = document.querySelectorAll('.bar');
         const array = Array.from(bars);
 
@@ -130,17 +144,16 @@ permalink: /project
                     array[j + 1] = temp;
 
                     // Update visualization
-                    for (let k = 0; k < array.length; k++) {
-                        await delay(delayTime);
-                        arrayContainer.innerHTML = '';
-                        array.forEach(bar => arrayContainer.appendChild(bar));
-                    }
+                    await updateVisualization(array);
                 }
             }
         }
     }
 
-    async function mergeSort(arrayContainer) {
+    async function mergeSort() {
+        clearExplanation();
+        explanationContainer.innerText = 'Merge Sort: ... (Add your explanation here)';
+
         const bars = document.querySelectorAll('.bar');
         const array = Array.from(bars);
 
@@ -176,10 +189,17 @@ permalink: /project
 
         const sortedArray = await mergeSortHelper(array);
 
-        for (let k = 0; k < sortedArray.length; k++) {
-            await delay(delayTime);
-            arrayContainer.innerHTML = '';
-            sortedArray.forEach(bar => arrayContainer.appendChild(bar));
-        }
+        // Update visualization
+        await updateVisualization(sortedArray);
+    }
+
+    async function updateVisualization(array) {
+        arrayContainer.innerHTML = ''; // Clear the container
+
+        // Append the bars directly to the existing arrayContainer
+        array.forEach(bar => arrayContainer.appendChild(bar));
+
+        // Add a delay
+        await delay(delayTime);
     }
 </script>
