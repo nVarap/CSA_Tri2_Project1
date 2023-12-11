@@ -53,10 +53,12 @@ permalink: /project
 </style>
 
 <div class="container">
+    <div class="array-container" id="array-container"></div>
+    <br>
     <label for="list-size">Enter list size:</label>
     <input type="number" id="list-size" min="1" value="20">
     <button id="generate-list-btn">Generate List</button>
-    <div class="array-container" id="array-container"></div>
+    <br>
     <div class="buttons">
         <button id="insertion-btn">Insertion Sort</button>
         <button id="bubble-btn">Bubble Sort</button>
@@ -92,11 +94,22 @@ permalink: /project
         document.getElementById('generate-list-btn').addEventListener('click', () => generateList());
     }
 
+    function makeList(n) {
+        const generatedList = [];
+
+        for (let i = 0; i < n; i++) {
+            const randomNumber = Math.floor(Math.random() * 100); // You can adjust the range as needed
+            generatedList.push(randomNumber);
+        }
+
+        return generatedList;
+    }
+
     function generateList() {
         const listSize = parseInt(document.getElementById('list-size').value);
-        // const generatedList = generateBars(listSize);
-        console.log('Generated List:', generatedList);
+        const generatedList = makeList(listSize);
         finalList = generatedList;
+        console.log('Generated List:', finalList);
     }
 
     function generateBars(size = 20) {
