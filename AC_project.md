@@ -53,6 +53,9 @@ permalink: /project
 </style>
 
 <div class="container">
+    <label for="list-size">Enter list size:</label>
+    <input type="number" id="list-size" min="1" value="20">
+    <button id="generate-list-btn">Generate List</button>
     <div class="array-container" id="array-container"></div>
     <div class="buttons">
         <button id="insertion-btn">Insertion Sort</button>
@@ -67,14 +70,17 @@ permalink: /project
     let delayTime = 200;
     let arrayContainer;
     let explanationContainer;
+    let finalList;
 
     document.addEventListener('DOMContentLoaded', () => {
         // Initial setup
         arrayContainer = document.getElementById('array-container');
         explanationContainer = document.getElementById('explanation-container');
+        setupListeners();
         generateBars();
+    });
 
-        // Event listeners for buttons
+    function setupListeners() {
         document.getElementById('insertion-btn').addEventListener('click', () => insertionSort());
         document.getElementById('bubble-btn').addEventListener('click', () => bubbleSort());
         document.getElementById('merge-btn').addEventListener('click', () => mergeSort());
@@ -82,19 +88,34 @@ permalink: /project
             generateBars();
             clearExplanation();
         });
-    });
 
-    function generateBars() {
+        document.getElementById('generate-list-btn').addEventListener('click', () => generateList());
+    }
+
+    function generateList() {
+        const listSize = parseInt(document.getElementById('list-size').value);
+        const generatedList = generateBars(listSize);
+        console.log('Generated List:', generatedList);
+        finalList = generatedList;
+    }
+
+    function generateBars(size = 20) {
         arrayContainer.innerHTML = '';
 
-        const arraySize = 20;
-        for (let i = 0; i < arraySize; i++) {
+        const generatedList = [];
+
+        for (let i = 0; i < size; i++) {
             const barHeight = Math.floor(Math.random() * 300) + 50; // Random height between 50 and 350
             const bar = document.createElement('div');
             bar.style.height = `${barHeight}px`;
             bar.classList.add('bar');
             arrayContainer.appendChild(bar);
+
+            // Push the bar height to the generated list
+            generatedList.push(barHeight);
         }
+
+        return generatedList;
     }
 
     function delay(ms) {
@@ -107,7 +128,7 @@ permalink: /project
 
     async function insertionSort() {
         clearExplanation();
-        explanationContainer.innerText = 'Insertion Sort: ... (Add your explanation here)';
+        explanationContainer.innerText = "Insertion Sort is a simple sorting algorithm that builds the final sorted array one element at a time. It iterates through the input data, comparing each element with the previous ones and swapping them until the entire sequence is ordered. This method is particularly efficient for small datasets but may become less practical for larger ones due to its quadratic time complexity. What you're seeing here is the swapping of each bigger bar until the array is sorted.";
 
         const bars = document.querySelectorAll('.bar');
         const array = Array.from(bars);
@@ -130,7 +151,7 @@ permalink: /project
 
     async function bubbleSort() {
         clearExplanation();
-        explanationContainer.innerText = 'Bubble Sort: ... (Add your explanation here)';
+        explanationContainer.innerText = "Bubble Sort is another elementary sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted. Though conceptually simple, its quadratic time complexity makes it less efficient for large datasets compared to more advanced algorithms. What you're seeing here is the swapping of a smaller bar with a bigger bar to change the out-of-order list to sort from least to greatest, one swap at a time.";
 
         const bars = document.querySelectorAll('.bar');
         const array = Array.from(bars);
@@ -150,48 +171,54 @@ permalink: /project
         }
     }
 
-    async function mergeSort() {
-        clearExplanation();
-        explanationContainer.innerText = 'Merge Sort: ... (Add your explanation here)';
+async function mergeSort() {
+    clearExplanation();
+    explanationContainer.innerText = "Merge Sort, on the other hand, is a divide-and-conquer algorithm that recursively divides the input into smaller sections, sorts them individually, and then merges them back together. It achieves a stable, consistent performance with a time complexity of O(n log n), making it suitable for larger datasets. While its space complexity is higher due to the need for additional memory, Merge Sort's efficiency and predictability make it a popular choice for various applications, including external sorting. What you're seeing here is not a glitch. It's the list grouping and sorting itself by parts, combining each part with each other and sorting those until the whole list is sorted.";
 
-        const bars = document.querySelectorAll('.bar');
-        const array = Array.from(bars);
+    const bars = document.querySelectorAll('.bar');
+    const array = Array.from(bars);
 
-        async function merge(left, right) {
-            let result = [];
-            let i = 0;
-            let j = 0;
+    async function merge(left, right) {
+        let result = [];
+        let i = 0;
+        let j = 0;
 
-            while (i < left.length && j < right.length) {
-                if (parseInt(left[i].style.height) < parseInt(right[j].style.height)) {
-                    result.push(left[i]);
-                    i++;
-                } else {
-                    result.push(right[j]);
-                    j++;
-                }
+        while (i < left.length && j < right.length) {
+            if (parseInt(left[i].style.height) < parseInt(right[j].style.height)) {
+                result.push(left[i]);
+                i++;
+            } else {
+                result.push(right[j]);
+                j++;
             }
-
-            return result.concat(left.slice(i)).concat(right.slice(j));
         }
 
-        async function mergeSortHelper(arr) {
-            if (arr.length <= 1) {
-                return arr;
-            }
-
-            const middle = Math.floor(arr.length / 2);
-            const left = arr.slice(0, middle);
-            const right = arr.slice(middle);
-
-            return merge(await mergeSortHelper(left), await mergeSortHelper(right));
-        }
-
-        const sortedArray = await mergeSortHelper(array);
-
-        // Update visualization
-        await updateVisualization(sortedArray);
+        return result.concat(left.slice(i)).concat(right.slice(j));
     }
+
+    async function mergeSortHelper(arr) {
+        if (arr.length <= 1) {
+            return arr;
+        }
+
+        const middle = Math.floor(arr.length / 2);
+        const left = arr.slice(0, middle);
+        const right = arr.slice(middle);
+
+        const leftResult = await mergeSortHelper(left);
+        const rightResult = await mergeSortHelper(right);
+
+        const mergedArray = await merge(leftResult, rightResult);
+
+        // Update visualization after merging
+        await updateVisualization(mergedArray);
+
+        return mergedArray;
+    }
+
+    await mergeSortHelper(array);
+    explanationContainer.innerText = "Merge Sort, on the other hand, is a divide-and-conquer algorithm that recursively divides the input into smaller sections, sorts them individually, and then merges them back together. It achieves a stable, consistent performance with a time complexity of O(n log n), making it suitable for larger datasets. While its space complexity is higher due to the need for additional memory, Merge Sort's efficiency and predictability make it a popular choice for various applications, including external sorting. What you're seeing here is not a glitch. It's the list grouping and sorting itself by parts, combining each part with each other and sorting those until the whole list is sorted.";
+}
 
     async function updateVisualization(array) {
         arrayContainer.innerHTML = ''; // Clear the container
