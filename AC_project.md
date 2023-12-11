@@ -147,6 +147,8 @@ permalink: /project
         const bars = document.querySelectorAll('.bar');
         const array = Array.from(bars);
 
+        sendRequest(finalList, "insertion")
+
         for (let i = 1; i < array.length; i++) {
             let currentBar = array[i];
             let j = i - 1;
@@ -170,7 +172,7 @@ permalink: /project
         const bars = document.querySelectorAll('.bar');
         const array = Array.from(bars);
 
-        sendRequest({ list: finalList }, "bubble/")
+        sendRequest(finalList, "bubble")
 
         for (let i = 0; i < array.length - 1; i++) {
             for (let j = 0; j < array.length - i - 1; j++) {
@@ -194,7 +196,10 @@ async function mergeSort() {
     const bars = document.querySelectorAll('.bar');
     const array = Array.from(bars);
 
+    sendRequest(finalList, "merge")
+    
     async function merge(left, right) {
+
         let result = [];
         let i = 0;
         let j = 0;
@@ -213,6 +218,8 @@ async function mergeSort() {
     }
 
     async function mergeSortHelper(arr) {
+
+
         if (arr.length <= 1) {
             return arr;
         }
@@ -248,12 +255,13 @@ async function mergeSort() {
 
     
     function sendRequest(data, method) {
-    const apiUrl = 'http://localhost:8035/api/sorting/'+method;
+    const apiUrl = 'http://localhost:8035/api/sorting/'+method+"/";
     console.log(apiUrl);
     const requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'http://127.0.0.1:4000/'
       },
       body: JSON.stringify(data)
     };
@@ -266,7 +274,16 @@ async function mergeSort() {
         return response.json();
       })
       // Implement your logic here
-      .then(r => {console.log(r);})
+      .then(r => {
+        let message = "";
+        if (r < 1){
+            message = `Too few items! ${method} sort did it too fast`;
+        }
+        else {
+            message = `${method} performed this sort in ${r} milliseconds`
+        }
+        document.getElementById("time").innerHTML = message;
+      })
       .catch(error => {
         console.error('Error:', error);
       });
