@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fibonacci Animation</title>
+</head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .fibonacci-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .fibonacci-number {
+    font-size: 24px;
+    margin: 5px;
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+    position: absolute;
+  } 
+  </style>
+  <title>Fibonacci Spiral Animation</title>
+</head>
+<body>
+  <div class="fibonacci-container" id="fibonacci-container">
+    <div class="fibonacci-number" id="fibonacci-number">0</div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+<body>
+  <div class="fibonacci-container" id="fibonacci-container">
+    <div class="fibonacci-number" id="fibonacci-number">0</div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+<script>
+    const fibonacciContainer = document.getElementById('fibonacci-container');
+const fibonacciNumber = document.getElementById('fibonacci-number');
+
+let a = 0;
+let b = 1;
+let angle = 0;
+
+function displayNextFibonacci() {
+  const nextFibonacci = a + b;
+  fibonacciNumber.textContent = nextFibonacci;
+
+  // Calculate polar coordinates
+  offset = 0;
+  const radius = Math.sqrt(nextFibonacci) * 10;
+  const x = radius * Math.cos(angle);
+  const y = radius * Math.sin(angle);
+
+  // Add a new Fibonacci number element to the container
+  const newNumberElement = document.createElement('div');
+  newNumberElement.classList.add('fibonacci-number');
+  newNumberElement.textContent = nextFibonacci;
+
+  // Apply position based on polar coordinates
+  newNumberElement.style.transform = `translate(${x}px, ${y}px)`;
+
+  // Update angle for the next iteration
+  angle += 30
+  offset += 1000;
+
+  fibonacciContainer.appendChild(newNumberElement);
+
+  // Trigger reflow to apply styles before animation
+  newNumberElement.offsetWidth;
+
+  // Apply animation to the new number element
+  newNumberElement.style.opacity = 1;
+
+  a = b;
+  b = nextFibonacci;
+}
+
+// Display the first Fibonacci number
+displayNextFibonacci();
+
+// Set an interval to display the next Fibonacci number every second
+setInterval(displayNextFibonacci, 1000);
+
+</script>
