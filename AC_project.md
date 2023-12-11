@@ -94,7 +94,7 @@ permalink: /project
 
     function generateList() {
         const listSize = parseInt(document.getElementById('list-size').value);
-        const generatedList = generateBars(listSize);
+        // const generatedList = generateBars(listSize);
         console.log('Generated List:', generatedList);
         finalList = generatedList;
     }
