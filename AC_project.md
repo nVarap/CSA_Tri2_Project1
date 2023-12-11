@@ -65,6 +65,7 @@ permalink: /project
         <button id="merge-btn">Merge Sort</button>
         <button id="reset-btn">Reset Bars</button>
     </div>
+    <div id="time" style="padding-up: 20px">Time</div>
     <div class="explanation" id="explanation-container"></div>
 </div>
 
@@ -169,6 +170,8 @@ permalink: /project
         const bars = document.querySelectorAll('.bar');
         const array = Array.from(bars);
 
+        sendRequest({ list: finalList }, "bubble/")
+
         for (let i = 0; i < array.length - 1; i++) {
             for (let j = 0; j < array.length - i - 1; j++) {
                 if (parseInt(array[j].style.height) > parseInt(array[j + 1].style.height)) {
@@ -242,4 +245,30 @@ async function mergeSort() {
         // Add a delay
         await delay(delayTime);
     }
+
+    
+    function sendRequest(data, method) {
+    const apiUrl = 'http://localhost:8035/api/sorting/'+method;
+    console.log(apiUrl);
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    };
+
+    fetch(apiUrl, requestOptions)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      // Implement your logic here
+      .then(r => {console.log(r);})
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
 </script>
