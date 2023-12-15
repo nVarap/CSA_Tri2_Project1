@@ -280,7 +280,7 @@ async function mergeSort() {
             message = `Too few items! ${method} sort did it too fast`;
         }
         else {
-            message = `${method} performed this sort in ${r} milliseconds`
+            message = `${method} performed this sort in ${r} microseconds`
         }
         document.getElementById("time").innerHTML = message;
       })
